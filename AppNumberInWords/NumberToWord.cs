@@ -182,5 +182,53 @@ namespace AppNumberInWords
         }
 
 
+        private static String ConvertToWords(String numb)
+        {
+            String val = "", wholeNo = numb, points = "", andStr = "", pointStr = "";
+            String endStr = "Only";
+            try
+            {
+                int decimalPlace = numb.IndexOf(".");
+                if(decimalPlace>0)
+                {
+                    wholeNo = numb.Substring(0, decimalPlace);
+                    points = numb.Substring(decimalPlace + 1);
+                    if(Convert.ToInt32(points)>0)
+                    {
+                        andStr = " and ";// just to separate whole numbers from points/cents
+                        endStr = " AMD " + endStr; //cents
+                        pointStr = ConvertDecimals(points);
+
+                    }
+                }
+                val = String.Format("{0}{1}{2}{3}", ConvertWholeNumber(wholeNo).Trim(), andStr, pointStr, endStr);
+            }
+            catch { }
+            return val;
+        } 
+
+        private static String ConvertDecimals(String number)
+        {
+            String cd = "", digit = "", engOne = "";
+            for (int i = 0; i < number.Length; i++)
+            {
+                digit = number[i].ToString();
+                if(digit.Equals("0"))
+                {
+                    engOne = "Zero";
+                }
+                else
+                {
+                    engOne = Ones(digit);
+                }
+                cd += " " + engOne;
+            }
+            return cd;
+        }
+
+
+
+
+
     }
 }
